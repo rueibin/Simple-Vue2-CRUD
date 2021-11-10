@@ -76,6 +76,24 @@
         })
       },
       updateEmp(){
+        this.errorMsg={};
+
+        if(this.employee.name==""){
+          this.errorMsg.name='name required'
+        }
+        if(this.employee.email==""){
+          this.errorMsg.email='email required'
+        }
+
+        let emailRegxp = /^([\w]+)(.[\w]+)*@([\w]+)(.[\w]{2,3}){1,2}$/;
+        if (emailRegxp.test(this.employee.email) != true && this.employee.email!=""){
+          this.errorMsg.email='email format error'
+        }
+
+        if( this.errorMsg.name!=null || this.errorMsg.email!=null ){
+          return;
+        }
+
         instance.put("/emp",this.employee).then(res=>{
           $("#edit_modal").modal("hide");
           this.$parent.findAll();
